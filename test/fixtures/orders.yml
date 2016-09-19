@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  creat_at: 2016-09-13 10:21:19
+  pirce: 
+
+two:
+  creat_at: 2016-09-13 10:21:19
+  pirce: 

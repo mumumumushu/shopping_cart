@@ -1,0 +1,82 @@
+<p id="notice"><%= notice %></p>
+<h2>Order <%= @order.order_name %></h2>
+
+<p>
+  <strong>Creat at:</strong>
+  <%= @order.order_created_at %>
+</p> 
+<p>
+  <strong>Last Edited at:</strong>
+  <%= @order.order_last_edited_at %>
+</p> 
+
+<p>
+  <strong>Sum Pirce:</strong>
+  <%= @order.sum_price %> 
+</p>
+
+
+<h3>Commodity List</h3>
+<% @order.commodities.each do |c| %>
+  <tr>
+		<td> 
+		<strong>Name</strong>
+		<%= c.c_name %>
+	  </td>
+	  <td>
+		<strong>Unit Price</strong>
+		<%= c.c_price %>
+		</td>
+	
+		<td>
+			<strong>  Number</strong>
+			<%= c.c_num %>
+
+		</td>
+		<td>
+			<%= link_to 'Destroy', [c.order,c], method: :delete, data: { confirm: 'Are you sure?' } %>
+
+		</tr>
+		<br/> 
+<% end %>
+
+
+
+<h3>Add a commodity</h3>
+<% if  session[:input_error] %>
+		<%= session[:input_error] %>		
+<% end %>
+<%= form_for ([@order,@order.commodities.build]) do |f| %>
+	<p>
+		<%= f.label "Commodity Name:" %>
+		<%= f.text_field :c_name %>
+		<% if  session[:name_error] %>
+				<%= session[:name_error] %>		
+		<% end %>
+
+
+	</p>
+	<p>
+		<%= f.label "Unit Price:" %>
+		<%= f.text_field :c_price %>
+		<% if  session[:price_error] %>
+				<%= session[:price_error] %>		
+		<% end %>
+	</p>
+	<p>
+		<%= f.label "Number:" %>
+		<%= f.text_field :c_num %>
+		<% if  session[:num_error] %>
+				<%= session[:num_error] %>		
+		<% end %>
+	</p>
+	<p>
+    <%= f.submit "Add",action: :create %>
+  </p>
+
+
+<% end %>
+
+
+
+<%= link_to 'Back', orders_path %>

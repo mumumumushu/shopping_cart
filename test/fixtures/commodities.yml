@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  c_name: MyString
+  c_num: 1
+  c_price: 1.5
+
+two:
+  c_name: MyString
+  c_num: 1
+  c_price: 1.5
