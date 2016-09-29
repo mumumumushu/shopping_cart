@@ -15,6 +15,21 @@
   <%= @order.sum_price %> 
 </p>
 
+<p>
+  <strong>Consignee Name:</strong>  
+	<%= current_user.addresses.find(@order.order_address_id).consignee_name %>
+</p>
+
+<p>
+	<strong>Consignee Adderss</strong>
+
+	<%= current_user.addresses.find(@order.order_address_id).consignee_address %>
+</p>
+<%= link_to("Change the consignee's address", index_order_address_for_change_order_path(@order) ) %>
+
+
+
+
 
 <h3>Commodity List</h3>
 <% @order.commodities.each do |c| %>
@@ -73,10 +88,8 @@
 	<p>
     <%= f.submit "Add",action: :create %>
   </p>
-
+<%= link_to 'Back', orders_path %>
 
 <% end %>
 
 
-
-<%= link_to 'Back', orders_path %>

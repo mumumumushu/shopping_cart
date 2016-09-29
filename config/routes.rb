@@ -4,9 +4,13 @@ Rails.application.routes.draw do
 
   resources :orders do
   	resources :commodities
+  	post 'change_order_address',on: :member
+  	get  'index_order_address_for_change',on: :member
+
+
 	end
 
-	resources :addresses do
+	resources :addresses,except:[:edit,:update,:show] do
   	post 'make_it_default', on: :member
 	end
 

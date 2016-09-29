@@ -4,7 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :authentication_keys => {email: false, username: true}
- 	has_many :orders
+ 	has_many :orders, dependent: :destroy
+  has_many :addresses, dependent: :destroy
  	#attr_accessor :login
 
 	#def email_required?

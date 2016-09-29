@@ -2,7 +2,11 @@
 
 <% if user_signed_in? %>
 		<%= link_to("Edit my order",orders_path) %><br>
+		
+		<%= link_to("Edit my address",addresses_path) %><br><br>
+		
 		<%= link_to("Edit my account", edit_user_registration_path(current_user)) %>
+
 <% else %>
 		<h2>please sign in</h2>
 <% end %>

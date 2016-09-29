@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order,only: [:show, :edit, :update, :destroy]
+  before_action :set_order,only: [:show, :update, :destroy, :index_order_address_for_change, :change_order_address]
+  before_action :make_sure_order_address_id_exists,only: [:show,:update,:index_order_address_for_change]
   after_action :reset_session_error,uniqueness: true
   
 
@@ -9,9 +10,11 @@ class OrdersController < ApplicationController
   # GET /orders.json
   def index
     @orders = current_user.orders.all
+
     @orders.each do |order|
         order.sum
     end
+
 
   end
 
@@ -26,11 +29,12 @@ class OrdersController < ApplicationController
   # GET /orders/new
   def new
     @order = current_user.orders.new
+
   end
 
   # GET /orders/1/edit
-  def edit
-  end
+  #def edit
+  #end
 
   # POST /orders
   # POST /orders.json
@@ -38,6 +42,7 @@ class OrdersController < ApplicationController
     @order = current_user.orders.new(order_params)
     @order.order_created_at = Time.now.localtime
     @order.order_last_edited_at = Time.now.localtime
+    
 
     respond_to do |format|
       if @order.save
@@ -75,11 +80,46 @@ class OrdersController < ApplicationController
     end
   end
 
+  def change_order_address
+    @order.order_address_id = params[:changed_address_id]
+    @order.save
+    redirect_to index_order_address_for_change_order_path(@order)
+    
+    
+  end
+
+  def index_order_address_for_change
+    @addresses=current_user.addresses.all
+    flash[:from_order]= @order.id
+  
+  end
+
+
+
+
+
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = current_user.orders.find(params[:id])
     end
+
+    def make_sure_order_address_id_exists
+      @order = current_user.orders.find(params[:id])
+
+      if not ( @order.order_address_id && current_user.addresses.exists?(id: @order.order_address_id))
+        @order.order_address_id = current_user.default_address_id
+        @order.save
+
+      end  
+
+   
+    end
+
+
 
     def reset_session_error
       session[:input_error]= nil
